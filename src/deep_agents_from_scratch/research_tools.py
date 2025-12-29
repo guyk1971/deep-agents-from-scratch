@@ -7,8 +7,15 @@ import os
 from datetime import datetime
 import uuid, base64
 
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join("..", "..", ".env"), override=True)
+api_key = os.getenv("NVIDIA_INFERENCE_HUB_KEY")
+
+
 import httpx
-from langchain.chat_models import init_chat_model
+# from langchain.chat_models import init_chat_model
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, ToolMessage
 from langchain_core.tools import InjectedToolArg, InjectedToolCallId, tool
 from langgraph.prebuilt import InjectedState
@@ -21,8 +28,17 @@ from typing_extensions import Annotated, Literal
 from deep_agents_from_scratch.prompts import SUMMARIZE_WEB_SEARCH
 from deep_agents_from_scratch.state import DeepAgentState
 
+
+
 # Summarization model 
-summarization_model = init_chat_model(model="openai:gpt-4o-mini")
+# summarization_model = init_chat_model(model="openai:gpt-4o-mini")
+summarization_model = ChatOpenAI( base_url = "https://inference-api.nvidia.com/",
+                    api_key = api_key,
+                    model="azure/openai/gpt-4o-mini",
+                    # model="aws/anthropic/bedrock-claude-sonnet-4-5-v1",
+                    temperature=0.0,
+                    streaming=False,
+                    )
 tavily_client = TavilyClient()
 
 class Summary(BaseModel):

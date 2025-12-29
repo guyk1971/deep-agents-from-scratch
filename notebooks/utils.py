@@ -75,7 +75,7 @@ def show_prompt(prompt_text: str, title: str = "Prompt", border_style: str = "bl
     """
     # Create a formatted display of the prompt
     formatted_text = Text(prompt_text)
-    formatted_text.highlight_regex(r"<[^>]+>", style="bold blue")  # Highlight XML tags
+    formatted_text.highlight_regex(r"<[^>]+>", style="bold bright_blue")  # Highlight XML tags
     formatted_text.highlight_regex(
         r"##[^#\n]+", style="bold magenta"
     )  # Highlight headers
